@@ -1,47 +1,73 @@
-
 <?php
 
+use GameZone\DatabaseObject;
 use GameZone\Game;
 
+$games = Game::getAll();
 ?>
-<table class="dataTable">
-    <thead>
-        <th>Name</th>
-        <th>Bescription</th>
-        <th>Images</th>
-        <th>Categorie</th>
-        <th>Review</th>
-        <th>Price</th>
-        <th>Wishlisted</th>
-    </thead>
-    <tbody>
-        <?php foreach(Game::getAll() as $game):?>
-            <tr>
-                <th><?= $game->getGameName()?></th>
-                <th><?= $game->getDescription() ?></th>
-                <th><?= $game->getImages()?></th>
-                <th><?= $game->getCategories()?></th>
-                <th><?= $game->getReleaseDate()?></th>
-                <th><?= $game->getPrice()?></th>
-                <th><?= $game->getReview()?></th>
-                <?php if($game->getReview()) :?>
-                    <th>
-                    <i class="fa-solid fa-star-sharp"></i>
-                    </th>
-                <?php endif; ?>
-                <?php if($game->isWishlisted()) :?>
-                        <th>
-                        <i class="fa-solid fa-circle-heart"></i>
-                        </th>
-                    <?php else: ?>
-                        <th>
-                        <i class="fa-solid fa-xmark"></i>
-                        </th>
-                    <?php endif; ?>
-                <th><?= $game->getPurchaseDate()?></th>
-            </tr>
-        <?php endforeach; ?>
-        
-       
-    </tbody>
-</table>
+<script src="/src/js/mainTable.js"></script>
+<script>
+	$(document).ready(function (){
+		getImages(<?=count($games)?>);
+	});
+</script>
+<div class="container py-5">
+	<table class="table dataTable" style="color: white">
+		<thead>
+			<tr>
+				<th>Bild</th>
+				<th>Name</th>
+				<th>Realease Date</th>
+				<th>Price</th>
+				<th>Categories</th>
+				<th>Review</th>
+				<th>Wishlisted</th>
+				<th>Optionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($games as $key => $game):?>
+				<tr>
+					<?php if(empty($game->getImages())):?>
+						<th id="image<?=$key?>" data-name="<?=$game->getGameName()?>"><i class="fas fa-spinner fa-spin"></i></th>
+					<?php else:?>
+						<th><img src="<?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>"></th>
+					<?php endif;?>
+					<th><?=$game->getGameName()?></th>
+					<th><?=DatabaseObject::formatTime($game->getReleaseDate())?></th>
+					<th><?=$game->getPriceFormatted()?> €</th>
+					<th><?=$game->getCategoriesAsString()?></th>
+					<th>
+						<span hidden><?=$game->getReview()?></span>
+						<?php for ($i = 0;$i < $game->getReview();$i++):?>
+							<i class="fa-solid fa-star"></i>
+						<?php endfor;?>
+					</th>
+					<th>
+						<button type="button" class="btn btn-outline-danger" id="favorButton<?=$game->getGameId()?>" onclick="switchFavorite(<?=$game->getGameId()?>)">
+							<?php if($game->isWishlisted()):?>
+								<span hidden>Yes</span>
+								<i class="fa-solid fa-heart"></i>
+							<?php else:?>
+								<span hidden>No</span>
+								<i class="fa-solid fa-ban"></i>
+							<?php endif;?>
+						</button>
+					</th>
+					<th>
+						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameId()?>)">
+							<i class="fa-solid fa-pen-to-square"></i>
+						</button>
+						<button type="button" class="btn btn-outline-info">
+							<i class="fa-solid fa-download"></i>
+						</button>
+						<button type="button" class="btn btn-outline-warning" id="deleteButton<?=$game->getGameId()?>" onclick="deleteGame(<?=$game->getGameId()?>)">
+							<i class="fa-regular fa-trash-can"></i>
+						</button>
+					</th>
+				</tr>
+			<?php endforeach;?>
+		</tbody>
+	</table>
+</div>
+<?php include_once TPL . 'gameModal.tpl.php';?>

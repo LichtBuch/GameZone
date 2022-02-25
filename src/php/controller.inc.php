@@ -15,9 +15,9 @@ if(isset($_POST['action'])){
 			include PHP . 'deleteCategory.inc.php';
 			break;
 
-        case 'favorite':
-            include PHP . 'Favorite.inc.php';
-            break;
+		case 'updateGame':
+			include PHP . 'updateGame.inc.php';
+			break;
 
 	}
 }

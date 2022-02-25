@@ -96,4 +96,24 @@ abstract class DatabaseObject{
             ->save();
     }
 
+	/**
+	 * @param int $time
+	 * @return string
+	 */
+	public static function formatTime(int $time):string {
+		return date('d.m.Y', $time);
+	}
+
+	/**
+	 * @param callable $callback
+	 * @param array $vars
+	 * @return string
+	 */
+	public static function generateID(callable $callback, array $vars = []):string {
+		do{
+			$id = uniqid();
+		}while($callback($id, $vars));
+		return $id;
+	}
+
 }

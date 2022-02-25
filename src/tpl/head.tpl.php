@@ -4,15 +4,15 @@
     <script src="/src/js/jquery.dataTables.min.js"></script>
     <script src="/src/js/dataTables.bootstrap4.min.js"></script>
     <script src="/src/js/all.min.js"></script>
+	<script src="/src/js/Category.js"></script>
+	<script src="/src/js/Game.js"></script>
+	<script src="/src/js/RequestData.js"></script>
+	<script src="/src/js/custom.js"></script>
 
     <link href="/src/css/bootstrap.min.css" rel="stylesheet">
     <link href="/src/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="/src/css/custom.css" rel="stylesheet">
 
-    <script>
-        $(document).ready( function () {
-            $('.datatable').DataTable();
-        });
-    </script>
+	<title></title>
 
 </head>

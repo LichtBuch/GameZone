@@ -6,10 +6,11 @@ use PDOStatement;
 
 class Image extends DatabaseObject {
 
-    const PATH = __DIR__ . '/../images/';
+    const PATH = __DIR__ . '/../img/';
+	const WEB_PATH = '/src/img/';
 
-    private $imageName;
-    private $gameID;
+    public $imageName;
+    public $gameID;
 
 	/**
 	 * @param array $data
@@ -140,5 +141,19 @@ class Image extends DatabaseObject {
     protected function prepareInsert(): PDOStatement{
         return DB::getInstance()->prepare('INSERT INTO images (imageName, deleted, gameID) VALUES(?, ?, ?)');
     }
+
+	/**
+	 * @param string $extension
+	 * @return string
+	 */
+	public static function generateImageName(string $extension = '.jpg'):string {
+		$id = DatabaseObject::generateID(
+			function($id, $vars){
+				return file_exists(Image::PATH . $id . $vars['extension']);
+			},
+			['extension' => $extension]
+		);
+		return $id . $extension;
+	}
 
 }
