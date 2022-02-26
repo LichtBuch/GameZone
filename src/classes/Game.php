@@ -7,7 +7,7 @@ use PDOStatement;
 
 class Game extends DatabaseObject{
 
-    public $gameId;
+    public $gameID;
     public $gameName = '';
     /**
      * @var Image[]
@@ -22,23 +22,23 @@ class Game extends DatabaseObject{
     public $price;
     public $review;
     public $wishlisted = false;
-	public $favored = false;
+    private $deleted = false;
 
     /**
-	 * @return bool
-	 */
-	public function isFavored():bool {
-		return $this->favored;
-	}
+     * @return bool
+     */
+    public function isDeleted():bool {
+        return $this->deleted;
+    }
 
-	/**
-	 * @param bool $favored
-	 * @return Game
-	 */
-	public function setFavored(bool $favored):self {
-		$this->favored=$favored;
-		return $this;
-	}
+    /**
+     * @param bool $deleted
+     * @return Game
+     */
+    public function setDeleted(bool $deleted):self {
+        $this->deleted = $deleted;
+        return $this;
+    }
 
     /**
      * @param array $data
@@ -46,7 +46,7 @@ class Game extends DatabaseObject{
      */
     public function populate(array $data): DatabaseObject{
         return $this
-        ->setGameId((int)$data['gameID'])
+        ->setGameID((int)$data['gameID'])
         ->setGameName($data['gameName'])
         ->setDescription($data['description'])
         ->setReleaseDate($data['releaseDate'])
@@ -57,23 +57,23 @@ class Game extends DatabaseObject{
     }
 
     /**
-     * Get the value of gameId
+     * Get the value of gameID
      * 
      * @return int
      */ 
-    public function getGameId(): int{
-        return $this->gameId;
+    public function getGameID(): int{
+        return $this->gameID;
     }
 
     /**
-     * Set the value of gameId
+     * Set the value of gameID
      *
-     * @param int $gameId
+     * @param int $gameID
      * @return  self
      */
-    public function setGameId(int $gameId): self{
-		if($gameId !== 0) {
-			$this->gameId=$gameId;
+    public function setGameID(int $gameID): self{
+		if($gameID !== 0) {
+			$this->gameID=$gameID;
 		}
         return $this;
     }
@@ -106,9 +106,6 @@ class Game extends DatabaseObject{
     public function getImages(): array{
         if(!isset($this->images)){
             $this->images = Image::getImagesByGame($this);
-			if(empty($this->images)){
-				$this->getTwitchImage();
-			}
         }
         return $this->images;
     }
@@ -295,7 +292,6 @@ class Game extends DatabaseObject{
         return [
 			$this->getReview(),
 			$this->getPrice(),
-			(int) $this->isFavored(),
             $this->getGameName(),
             $this->getDescription(),
             $this->getReleaseDate(),
@@ -305,23 +301,23 @@ class Game extends DatabaseObject{
     }
 
     public function primaryKeyIsset(): bool{
-        return isset($this->gameId);
+        return isset($this->gameID);
     }
 
     public function getPrimaryKey(): int{
-        return $this->getGameId();
+        return $this->getGameID();
     }
 
     protected function setPrimaryKey($id): DatabaseObject{
-        return $this->setGameId($id);
+        return $this->setGameID($id);
     }
 
     protected function prepareUpdate(): PDOStatement{
-        return DB::getInstance()->prepare('UPDATE games SET review = ?, price = ?, favored = ?, gameName = ?, description = ?, releaseDate = ?, wishlisted = ?, deleted = ? WHERE gameID = ?');
+        return DB::getInstance()->prepare('UPDATE games SET review = ?, price = ?, gameName = ?, description = ?, releaseDate = ?, wishlisted = ?, deleted = ? WHERE gameID = ?');
     }
 
     protected function prepareInsert(): PDOStatement{
-        return DB::getInstance()->prepare('INSERT INTO games (review, price, favored, gameName, description, releaseDate, wishlisted, deleted) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
+        return DB::getInstance()->prepare('INSERT INTO games (review, price, gameName, description, releaseDate, wishlisted, deleted) VALUES(?, ?, ?, ?, ?, ?, ?)');
     }
 
 	/**
@@ -350,21 +346,23 @@ class Game extends DatabaseObject{
      */
     public function getTwitchImage(): string{
         $coverURL = TwitchSearch::getInstance()->search($this->getGameName());
-		if(!empty($coverURL)){
+        if(!empty($coverURL)){
 
-			$imageName = Image::generateImageName();
-			file_put_contents(Image::PATH . $imageName, file_get_contents($coverURL));
+            $imageName = Image::generateImageName();
+            file_put_contents(Image::PATH . $imageName, file_get_contents($coverURL));
 
-			$image = new Image();
-			$image
-				->setImageName($imageName)
-				->setGameID($this->getGameId())
-				->save();
+            $image = new Image();
+            $image
+                ->setImageName($imageName)
+                ->setGameID($this->getGameID())
+                ->save();
 
-			$this->loadImages(true);
-		}
+            $this->loadImages(true);
 
-		return $imageName ?? $coverURL;
+            $imageName = Image::WEB_PATH . $imageName;
+        }
+
+        return $imageName ?? $coverURL;
     }
 
 	/**
@@ -388,31 +386,72 @@ class Game extends DatabaseObject{
 	}
 
 	/**
-	 * @param $date
+	 * @param string|int $date
 	 * @return int
 	 */
 	public function convertDate($date):int {
 		$time = strtotime($date);
-		if($time !== false){
-			return $time;
-		}
-		return $date;
-	}
-
-	/**
-	 * @param Game[] $games
-	 * @return void
-	 */
-	public static function getGameIDsWithoutImage(array $games){
-		foreach ($games as $game){
-			if(empty($game->getImages())){
-				$game->getTwitchImage();
-			}
-		}
+        return $time !== false ? $time : $date;
 	}
 
 	public function exportCSV(){
 
 	}
+
+    /**
+     * @param array $files
+     */
+    public function uploadImages(array $files){
+        if(is_array($files['name'])) {
+            foreach (array_keys($files['name']) as $key) {
+                $this->uploadImage($files['name'][$key], $files['tmp_name'][$key]);
+            }
+        }else{
+            $this->uploadImage($files['name'], $files['tmp_name']);
+        }
+
+        $this->loadImages(true);
+    }
+
+    private function uploadImage($name, $tmp){
+
+        $name = Image::generateImageName(Image::getExtension($name));
+
+        if (move_uploaded_file($tmp, Image::PATH . $name)) {
+            (new Image())
+                ->setImageName($name)
+                ->setGameID($this->getGameID())
+                ->save();
+        }
+    }
+
+    public function deleteImages(){
+        foreach ($this->getImages() as $image){
+            $image->delete();
+        }
+    }
+
+    public static function getGameByName(string $name): Game{
+        $game = new self();
+
+        $statement = DB::getInstance()->prepare('SELECT * FROM games WHERE gameName = ? LIMIT 1');
+        if($statement->execute([$name])){
+            $game->populate($statement->fetch());
+        }
+
+        return $game;
+    }
+
+    public function delete(){
+        $this
+            ->setDeleted(true)
+            ->save();
+    }
+
+    public function recover(){
+        $this
+            ->setDeleted(false)
+            ->save();
+    }
 
 }

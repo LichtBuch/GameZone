@@ -2,6 +2,7 @@
 
 use GameZone\DatabaseObject;
 use GameZone\Game;
+use GameZone\Image;
 
 $games = Game::getAll();
 ?>
@@ -12,10 +13,15 @@ $games = Game::getAll();
 	});
 </script>
 <div class="container py-5">
+
+    <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#gameModal" onclick="document.getElementById('gameForm').reset()">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
 	<table class="table dataTable" style="color: white">
 		<thead>
 			<tr>
-				<th>Bild</th>
+				<th>Image</th>
 				<th>Name</th>
 				<th>Realease Date</th>
 				<th>Price</th>
@@ -31,7 +37,7 @@ $games = Game::getAll();
 					<?php if(empty($game->getImages())):?>
 						<th id="image<?=$key?>" data-name="<?=$game->getGameName()?>"><i class="fas fa-spinner fa-spin"></i></th>
 					<?php else:?>
-						<th><img src="<?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>"></th>
+						<th><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" width="52" height="72"></th>
 					<?php endif;?>
 					<th><?=$game->getGameName()?></th>
 					<th><?=DatabaseObject::formatTime($game->getReleaseDate())?></th>
@@ -44,7 +50,7 @@ $games = Game::getAll();
 						<?php endfor;?>
 					</th>
 					<th>
-						<button type="button" class="btn btn-outline-danger" id="favorButton<?=$game->getGameId()?>" onclick="switchFavorite(<?=$game->getGameId()?>)">
+						<button type="button" class="btn btn-outline-danger" id="favorButton<?=$game->getGameID()?>" onclick="switchFavorite(<?=$game->getGameID()?>)">
 							<?php if($game->isWishlisted()):?>
 								<span hidden>Yes</span>
 								<i class="fa-solid fa-heart"></i>
@@ -55,13 +61,13 @@ $games = Game::getAll();
 						</button>
 					</th>
 					<th>
-						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameId()?>)">
+						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
 							<i class="fa-solid fa-pen-to-square"></i>
 						</button>
-						<button type="button" class="btn btn-outline-info">
-							<i class="fa-solid fa-download"></i>
-						</button>
-						<button type="button" class="btn btn-outline-warning" id="deleteButton<?=$game->getGameId()?>" onclick="deleteGame(<?=$game->getGameId()?>)">
+						<a type="button" class="btn btn-outline-info" href="?action=game&id=<?=$game->getGameID()?>">
+                            <i class="fa-solid fa-circle-info"></i>
+						</a>
+						<button type="button" class="btn btn-outline-warning" id="deleteButton<?=$game->getGameID()?>" onclick="deleteGame(<?=$game->getGameID()?>)">
 							<i class="fa-regular fa-trash-can"></i>
 						</button>
 					</th>

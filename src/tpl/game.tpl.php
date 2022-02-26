@@ -6,7 +6,7 @@ use GameZone\Image;
 $game=Game::getGame($_GET['id']??1);
 ?>
 <div class="float-left p-1 sticky-top">
-	<button type="button" class="btn btn-primary menu-button"><i class="fas fa-arrow-left w-100 h-auto"></i></button>
+	<a href="?" class="btn btn-primary menu-button"><i class="fas fa-arrow-left w-100 h-auto"></i></a>
 </div>
 <div class="float-right p-1 sticky-top">
 	<button type="button" class="btn btn-primary  menu-button" data-toggle="modal" data-target="#gameModal">
@@ -21,7 +21,7 @@ $game=Game::getGame($_GET['id']??1);
 	<div id="carouselExampleControls" class="carousel slide py-5" data-ride="carousel">
 		<ol class="carousel-indicators">
 			<?php foreach ($game->getImages() as $key=>$image): ?>
-				<li data-target="#carouselExampleIndicators" data-slide-to="<?= $key ?>"
+				<li data-target="#carouselExampleIndicators" data-slide-to="<?=$key?>"
 					<?php if ($key===0): ?>
 						class="active"
 					<?php endif; ?>
@@ -35,7 +35,7 @@ $game=Game::getGame($_GET['id']??1);
 					active
 				<?php endif; ?>
 			">
-					<img src="<?=Image::WEB_PATH?><?=$image->getImageName()?>" class="h-50 w-auto" alt="<?= $game->getGameName() ?>">
+					<img src="<?=Image::WEB_PATH?><?=$image->getImageName()?>" class="h-50 w-auto" alt="<?=$game->getGameName()?>">
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -48,13 +48,14 @@ $game=Game::getGame($_GET['id']??1);
 	</div>
 
 	<h4 class="text-center py-5">
-		Preis (Amazon): <?=$game->getPriceFormatted()?> €<br><br>
+		Preis: <?=$game->getPriceFormatted()?> €<br><br>
 		Bewertung: <?=$game->getReview()?><i class="fas fa-star"></i>
 	</h4>
 
 	<span class="text-center py-5">
 		Spiel Beschreibung:<br><br>
-		<?=$game->getDescription()?>
+		<?=nl2br($game->getDescription())?>
   	</span>
 
 </div>
+<?php include TPL . 'gameModal.tpl.php';?>

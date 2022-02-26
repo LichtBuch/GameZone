@@ -2,10 +2,11 @@
 
 namespace GameZone;
 
-use Mpdf\Mpdf;
-use Mpdf\MpdfException;
 
-class PDF extends Mpdf{
+use mPDF;
+use MpdfException;
+
+class PDF extends mPDF {
 
     /**
      * @param array $vars

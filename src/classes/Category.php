@@ -16,8 +16,7 @@ class Category extends DatabaseObject {
     public function populate(array $data): DatabaseObject{
         return $this
 			->setCategoryID((int)$data['categoryID'])
-			->setCategoryName($data['categoryName'])
-			->setDeleted((bool)$data['deleted']);
+			->setCategoryName($data['categoryName']);
     }
 
     /**
@@ -36,7 +35,9 @@ class Category extends DatabaseObject {
      * @return  self
      */
     public function setCategoryID(int $categoryID): self{
-        $this->categoryID = $categoryID;
+        if($categoryID !== 0) {
+            $this->categoryID = $categoryID;
+        }
         return $this;
     }
 
@@ -67,8 +68,8 @@ class Category extends DatabaseObject {
     public static function getCategoriesByGame(Game $game): array{
         $categories = [];
 
-        $statement = DB::getInstance()->prepare('SELECT categories.* FROM categories INNER JOIN gameCategories ON categories.categorieID = gameCategories.categorieID WHERE gameCategories.gameID = ? AND categories.deleted = 0');
-        if($statement->execute([$game->getGameId()])){
+        $statement = DB::getInstance()->prepare('SELECT categories.* FROM categories INNER JOIN gameCategories ON categories.categorieID = gameCategories.categorieID WHERE gameCategories.gameID = ?');
+        if($statement->execute([$game->getGameID()])){
             foreach ($statement->fetchAll() as $row){
                 $categories[] = (new self())->populate($row);
             }
@@ -167,5 +168,9 @@ class Category extends DatabaseObject {
 
 		return $category;
 	}
+
+    public function delete(){
+        DB::getInstance()->prepare('DELETE FROM category WHERE categorieID = ?')->execute([$this->getCategoryID()]);
+    }
 
 }

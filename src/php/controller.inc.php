@@ -21,3 +21,16 @@ if(isset($_POST['action'])){
 
 	}
 }
+
+
+if(isset($_GET['action'])){
+
+    switch ($_GET['action']){
+        case 'game':
+            include TPL . 'game.tpl.php';
+            break;
+    }
+
+}else{
+    include TPL . 'maintable.tpl.php';
+}

@@ -58,11 +58,11 @@ use GameZone\Category;
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" enctype="multipart/form-data">
+			<form method="post" enctype="multipart/form-data" action="?<?=http_build_query($_GET)?>" id="gameForm">
 				<div class="modal-body">
 					<div class="form-group" hidden>
-						<label for="gameID" hidden>Game ID</label>
-						<input placeholder="1" type="number" class="form-control" name="gameID" id="gameID" hidden>
+						<label for="gameID">Game ID</label>
+						<input placeholder="1" type="number" class="form-control" name="gameID" id="gameID">
 					</div>
 					<div class="form-group">
 						<label for="gameName">Name <i class="fa-solid fa-heading"></i></label>

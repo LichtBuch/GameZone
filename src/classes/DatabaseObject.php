@@ -6,8 +6,6 @@ use PDOStatement;
 
 abstract class DatabaseObject{
 
-	private $deleted = false;
-
     /**
      * @return bool
      */
@@ -46,22 +44,6 @@ abstract class DatabaseObject{
 
 	abstract public function populate(array $data): self;
 
-	/**
-	 * @return bool
-	 */
-	public function isDeleted():bool {
-		return $this->deleted;
-	}
-
-	/**
-	 * @param bool $deleted
-	 * @return DatabaseObject
-	 */
-	public function setDeleted(bool $deleted):self {
-		$this->deleted = $deleted;
-		return $this;
-	}
-
     protected function update(){
         $this->prepareUpdate()->execute($this->getUpdateParams());
     }
@@ -84,17 +66,7 @@ abstract class DatabaseObject{
         $this->primaryKeyIsset() ? $this->update() : $this->insert();
     }
 
-    public function delete(){
-		$this
-			->setDeleted(true)
-			->save();
-    }
-
-    public function recover(){
-        $this
-            ->setDeleted(false)
-            ->save();
-    }
+    abstract public function delete();
 
 	/**
 	 * @param int $time

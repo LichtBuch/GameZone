@@ -6,10 +6,7 @@ class TwitchSearch{
 
     use Singleton;
 
-	const API_TIMEOUT = 0.25;
-
     private $curl;
-	private $lastSearch;
 
     private function __construct(){
 		if($this->isTwitchAvailable()) {
@@ -33,7 +30,6 @@ class TwitchSearch{
     public function search(string $query): string{
 		if($this->isTwitchAvailable()) {
 			$query=$this->shrinkToMaxSize($query);
-			$this->checkLastSearch();
 			$jsonResponse=$this->request($query);
 			$response=$this->parseResponse($jsonResponse);
 
@@ -53,8 +49,6 @@ class TwitchSearch{
         if(curl_errno($this->curl)){
             echo curl_error($this->curl);
         }
-
-		$this->setLastSearch();
 
         return $response;
     }
@@ -99,23 +93,6 @@ class TwitchSearch{
 
 	public function isTwitchAvailable(): bool{
 		return Config::TWITCH_CLIENT_ID !== '' && Config::TWITCH_TOKEN !== '';
-	}
-
-	public function setLastSearch(){
-		$this->lastSearch = $this->time();
-	}
-
-	public function checkLastSearch(){
-		if(isset($this->lastSearch)) {
-			$timePassed=$this->time()-$this->lastSearch;
-			if ($timePassed<self::API_TIMEOUT) {
-				sleep(self::API_TIMEOUT-$timePassed);
-			}
-		}
-	}
-
-	public function time(){
-		return microtime(true);
 	}
 
 }
