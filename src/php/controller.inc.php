@@ -29,6 +29,14 @@ if(isset($_GET['action'])){
         case 'game':
             include TPL . 'game.tpl.php';
             break;
+
+        case 'categories':
+            include TPL . 'categories.tpl.php';
+            break;
+
+        case 'wishlist':
+            include TPL . 'wishlist.tpl.php';
+            break;
     }
 
 }else{

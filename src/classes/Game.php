@@ -151,7 +151,11 @@ class Game extends DatabaseObject{
      * @return self
      */
     public function addCategory(Category $category): self{
-        $this->loadCategories()->categories[] = $category;
+        DB::getInstance()
+            ->prepare('INSERT INTO gameCategories(gameID, categorieID) VALUES (?, ?)')
+            ->execute([$this->getGameID(), $category->getCategoryID()]);
+
+        $this->loadCategories(true);
         return $this;
     }
 
@@ -452,6 +456,63 @@ class Game extends DatabaseObject{
         $this
             ->setDeleted(false)
             ->save();
+    }
+
+    /**
+     * @return Game[]
+     */
+    public function getSimilarGames(): array{
+        $games = [];
+
+        if(!empty($this->getCategories())) {
+
+            $params = $this->getCategoryIDs();
+            $db = DB::getInstance();
+            $prepare = $db->prepareArray($params);
+            $params[] = $this->getGameID();
+            $sql = "SELECT DISTINCT games.* FROM games INNER JOIN gameCategories ON games.gameID = gameCategories.gameID WHERE gameCategories.categorieID IN($prepare) AND games.deleted = 0 AND NOT games.gameID = ?";
+
+            $statement = $db->prepare($sql);
+            if ($statement->execute($params)) {
+                foreach ($statement->fetchAll() as $row) {
+                    $games[] = (new self())->populate($row);
+                }
+            }
+
+        }
+
+        return $games;
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getCategoryIDs(): array{
+        $ids = [];
+
+        foreach ($this->getCategories() as $category){
+            $ids[] = $category->getCategoryID();
+        }
+
+        return $ids;
+    }
+
+    public function removeCategories(){
+        DB::getInstance()->prepare('DELETE FROM gameCategories WHERE gameID = ?')->execute([$this->getGameID()]);
+    }
+
+    /**
+     * @return Game[]
+     */
+    public static function getWishlist(): array{
+        $games = [];
+
+        $sql = 'SELECT * FROM games WHERE wishlisted = 1';
+        foreach (DB::getInstance()->query($sql) as $row){
+            $games[] = (new self())->populate($row);
+        }
+
+        return $games;
     }
 
 }

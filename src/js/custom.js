@@ -1,3 +1,6 @@
+const spinner = document.createElement("i");
+spinner.className = "fas fa-spinner fa-spin";
+
 function getGame(id){
     request(new RequestData("getGame", id.toString()), setGame);
 }
@@ -24,7 +27,14 @@ function setGame(game) {
 
     const categoryNames = [];
     game.categories.forEach(category => categoryNames.push(category.categoryName));
-    document.getElementById("categories").value = categoryNames.join();
+
+    const categories = document.getElementById("categories");
+
+    if(categoryNames.length > 0) {
+        categories.value = categoryNames.join(", ") + ", ";
+    }else{
+        categories.value = "";
+    }
 }
 
 function getCategory(id){
@@ -37,7 +47,6 @@ function setCategory(category){
 
     document.getElementById("categorieID").valueAsNumber = category.categoryID;
     document.getElementById("categoryName").value = category.categoryName;
-    document.getElementById("deleted").checked = category.deleted;
 }
 
 function reload(){

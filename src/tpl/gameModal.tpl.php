@@ -53,10 +53,7 @@ use GameZone\Category;
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="gameModalTitle">Spiel Bearbeiten</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<h5 class="modal-title" id="gameModalTitle">Game</h5>
 			</div>
 			<form method="post" enctype="multipart/form-data" action="?<?=http_build_query($_GET)?>" id="gameForm">
 				<div class="modal-body">
@@ -65,7 +62,7 @@ use GameZone\Category;
 						<input placeholder="1" type="number" class="form-control" name="gameID" id="gameID">
 					</div>
 					<div class="form-group">
-						<label for="gameName">Name <i class="fa-solid fa-heading"></i></label>
+						<label for="gameName">Name</label>
 						<input placeholder="Name" type="text" class="form-control" name="gameName" id="gameName" required>
 					</div>
 					<div class="form-group">
@@ -85,12 +82,12 @@ use GameZone\Category;
 						<input placeholder="5" type="number" min="1" max="5" step="1" class="form-control" name="review" id="review" required>
 					</div>
 					<div class="form-group">
-						<label for="categories">Categories <i class="fa-solid fa-circle-info"></i></label>
-						<input type="text" class="form-control" name="categories" id="categories">
+						<label for="categories">Categories <i class="fa-solid fa-magnifying-glass"></i></label>
+						<input type="search" class="form-control" name="categories" id="categories">
 					</div>
 					<div class="form-group">
 						<label for="images">Images <i class="fa-regular fa-images"></i></label>
-						<input type="file" class="form-control-file" name="images" id="images" multiple>
+						<input type="file" class="form-control-file" name="images[]" id="images" multiple>
 					</div>
 					<div class="form-check">
 						<input type="checkbox" class="form-check-input" name="wishlisted" id="wishlisted">
@@ -98,8 +95,12 @@ use GameZone\Category;
 					</div>
 				</div>
 				<div class="modal-footer d-flex justify-content-between">
-					<button type="submit" class="btn btn-primary" name="action" value="updateGame">Speichern</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+					<button type="submit" class="btn btn-outline-success" name="action" value="updateGame">
+                        <i class="fa-regular fa-floppy-disk"></i>
+                    </button>
+					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                        <i class="fa-regular fa-circle-xmark"></i>
+                    </button>
 				</div>
 			</form>
 		</div>

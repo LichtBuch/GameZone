@@ -64,6 +64,14 @@ a:hover {
     background-image: none;
 }
 
-tr{
-    background-color: var(--);
+.table{
+    color: white !important;
+}
+
+.ui-autocomplete {
+    z-index:2147483647;
+}
+
+.badge{
+    cursor: pointer;
 }

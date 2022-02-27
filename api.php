@@ -4,9 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use GameZone\Category;
 use GameZone\Game;
-use GameZone\Image;
 use GameZone\Json;
-use GameZone\TwitchSearch;
 
 if(isset($_GET['action'], $_GET['value'])){
 
@@ -30,6 +28,10 @@ if(isset($_GET['action'], $_GET['value'])){
 		case 'deleteGame':
 			Game::getGame($_GET['value'])->delete();
 			break;
+
+        case 'deleteCategory':
+            Category::getCategory($_GET['value'])->delete();
+            break;
 	}
 
 }

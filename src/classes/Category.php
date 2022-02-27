@@ -15,7 +15,7 @@ class Category extends DatabaseObject {
      */
     public function populate(array $data): DatabaseObject{
         return $this
-			->setCategoryID((int)$data['categoryID'])
+			->setCategoryID((int)$data['categorieID'])
 			->setCategoryName($data['categoryName']);
     }
 
@@ -126,7 +126,7 @@ class Category extends DatabaseObject {
      * @return PDOStatement
      */
     protected function prepareUpdate(): PDOStatement{
-        return DB::getInstance()->prepare('UPDATE categories SET categoryName = ? WHERE categoryID = ?');
+        return DB::getInstance()->prepare('UPDATE categories SET categoryName = ? WHERE categorieID = ?');
     }
 
     /**
@@ -143,8 +143,11 @@ class Category extends DatabaseObject {
     public static function getCategoriesByNames(array $names): array{
         $categories = [];
 
-        $sql = 'SELECT * FROM categories WHERE categoryName IN(' . DB::getInstance()->prepareArray($names) . ')';
-        $statement = DB::getInstance()->prepare($sql);
+        $db = DB::getInstance();
+        $prepare = $db->prepareArray($names);
+        $sql = "SELECT * FROM categories WHERE categoryName IN($prepare)";
+
+        $statement = $db->prepare($sql);
         if($statement->execute($names)){
             foreach ($statement->fetchAll() as $row){
                 $categories[] = (new self())->populate($row);
@@ -161,16 +164,16 @@ class Category extends DatabaseObject {
 	public static function getCategory(int $id): self{
 		$category = new self();
 
-		$statement = DB::getInstance()->prepare('SELECT * FROM categories WHERE categoryID = ?');
-		if($statement->execute([$id]) && $data = $statement->fetch()){
-			$category->populate($data);
+		$statement = DB::getInstance()->prepare('SELECT * FROM categories WHERE categorieID = ?');
+		if($statement->execute([$id])){
+			$category->populate($statement->fetch());
 		}
 
 		return $category;
 	}
 
     public function delete(){
-        DB::getInstance()->prepare('DELETE FROM category WHERE categorieID = ?')->execute([$this->getCategoryID()]);
+        DB::getInstance()->prepare('DELETE FROM categories WHERE categorieID = ?')->execute([$this->getCategoryID()]);
     }
 
 }

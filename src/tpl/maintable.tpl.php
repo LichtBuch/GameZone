@@ -18,7 +18,7 @@ $games = Game::getAll();
         <i class="fa-solid fa-plus"></i>
     </button>
 
-	<table class="table dataTable" style="color: white">
+	<table class="table dataTable">
 		<thead>
 			<tr>
 				<th>Image</th>
@@ -42,12 +42,20 @@ $games = Game::getAll();
 					<th><?=$game->getGameName()?></th>
 					<th><?=DatabaseObject::formatTime($game->getReleaseDate())?></th>
 					<th><?=$game->getPriceFormatted()?> €</th>
-					<th><?=$game->getCategoriesAsString()?></th>
 					<th>
-						<span hidden><?=$game->getReview()?></span>
-						<?php for ($i = 0;$i < $game->getReview();$i++):?>
-							<i class="fa-solid fa-star"></i>
-						<?php endfor;?>
+                        <?php foreach ($game->getCategories() as $category):?>
+                            <span class="badge badge-pill badge-info m-1" onclick="search('<?=$category->getCategoryName()?>')">
+                                <?=$category->getCategoryName()?>
+                            </span>
+                        <?php endforeach;?>
+                    </th>
+					<th>
+                        <div class="d-flex">
+                            <span hidden><?=$game->getReview()?></span>
+                            <?php for ($i = 0;$i < $game->getReview();$i++):?>
+                                <i class="fa-solid fa-star"></i>
+                            <?php endfor;?>
+                        </div>
 					</th>
 					<th>
 						<button type="button" class="btn btn-outline-danger" id="favorButton<?=$game->getGameID()?>" onclick="switchFavorite(<?=$game->getGameID()?>)">
@@ -61,15 +69,17 @@ $games = Game::getAll();
 						</button>
 					</th>
 					<th>
-						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
-							<i class="fa-solid fa-pen-to-square"></i>
-						</button>
-						<button type="button" class="btn btn-outline-info" onclick="location.href='?action=game&id=<?=$game->getGameID()?>'">
-                            <i class="fa-solid fa-circle-info"></i>
-						</button>
-						<button type="button" class="btn btn-outline-warning" id="deleteButton<?=$game->getGameID()?>" onclick="deleteGame(<?=$game->getGameID()?>)">
-							<i class="fa-regular fa-trash-can"></i>
-						</button>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-info m-1" onclick="location.href='?action=game&id=<?=$game->getGameID()?>'">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-warning m-1" id="deleteButton<?=$game->getGameID()?>" onclick="deleteGame(<?=$game->getGameID()?>)">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
 					</th>
 				</tr>
 			<?php endforeach;?>

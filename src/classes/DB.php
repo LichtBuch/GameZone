@@ -38,10 +38,4 @@ class DB extends PDO{
         return implode(', ', array_fill(0, count($array), '?'));
     }
 
-//	public function __destruct() {
-//		if(!empty($this->errorInfo())){
-//			var_dump($this->errorInfo());
-//		}
-//	}
-
 }

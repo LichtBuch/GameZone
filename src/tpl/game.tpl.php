@@ -7,7 +7,12 @@ $game=Game::getGame($_GET['id']??1);
 ?>
 <div class="container">
 
-	<h1 class="text-center py-5"><?=$game->getGameName()?></h1>
+	<h1 class="text-center py-5">
+        <?=$game->getGameName()?>
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
+            <i class="far fa-edit"></i>
+        </button>
+    </h1>
 
 	<div id="carouselExampleControls" class="carousel slide py-5" data-ride="carousel">
 		<ol class="carousel-indicators">
@@ -43,10 +48,10 @@ $game=Game::getGame($_GET['id']??1);
 		Bewertung: <?=$game->getReview()?><i class="fas fa-star"></i>
 	</h4>
 
-	<span class="text-center py-5">
+    <div class="py-5">
 		Spiel Beschreibung:<br><br>
 		<?=nl2br($game->getDescription())?>
-  	</span>
+    </div>
 
 </div>
 <?php include TPL . 'gameModal.tpl.php';?>

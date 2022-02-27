@@ -1,9 +1,9 @@
 {
     "require": {
-        "mpdf/mpdf": "6.1.0",
         "ext-pdo": "*",
         "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "tecnickcom/tcpdf": "^6.4"
     },
     "autoload": {
         "psr-4":{

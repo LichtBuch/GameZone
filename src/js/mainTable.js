@@ -1,6 +1,3 @@
-const spinner = document.createElement("i");
-spinner.className = "fas fa-spinner fa-spin";
-
 async function getImages(gameCount){
 
     const imageRequest = new RequestData("getImage", "");
@@ -21,6 +18,8 @@ async function getImages(gameCount){
                 if(src.length > 0) {
                     image = document.createElement("img");
                     image.src = src;
+                    image.width = 52;
+                    image.height = 72;
                 }else {
                     image = document.createElement("span");
                     image.innerText = "No image found";
@@ -65,4 +64,8 @@ function deleteGame(id){
         button.appendChild(spinner);
 
     }
+}
+
+function search(query){
+    $(".dataTable").DataTable().search(query).draw();
 }

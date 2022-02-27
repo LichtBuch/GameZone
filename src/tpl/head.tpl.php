@@ -4,6 +4,7 @@
     <script src="/src/js/jquery.dataTables.min.js"></script>
     <script src="/src/js/dataTables.bootstrap4.min.js"></script>
     <script src="/src/js/all.min.js"></script>
+    <script src="/src/js/jquery-ui.min.js"></script>
 	<script src="/src/js/Category.js"></script>
 	<script src="/src/js/Game.js"></script>
 	<script src="/src/js/RequestData.js"></script>
@@ -11,6 +12,7 @@
 
     <link href="/src/css/bootstrap.min.css" rel="stylesheet">
     <link href="/src/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/src/css/jquery-ui.min.css" rel="stylesheet">
     <link href="/src/css/custom.css" rel="stylesheet">
 
 	<title></title>
@@ -49,11 +51,4 @@
             </li>
         </ul>
     </div>
-    <?php if(isset($_GET['action']) && $_GET['action'] === 'game'):?>
-        <div class="ml-auto">
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$_GET['id']?>)">
-                <i class="far fa-edit w-100 h-auto"></i>
-            </button>
-        </div>
-    <?php endif;?>
 </nav>

@@ -3,21 +3,30 @@
 namespace GameZone;
 
 
-use mPDF;
-use MpdfException;
+use TCPDF;
 
-class PDF extends mPDF {
+class PDF extends TCPDF {
+
+    const INLINE = 'I';
+    const DOWNLOAD = 'D';
+    const FILE = 'F';
+    const STRING = 'S';
+
+    public function __construct(){
+        parent::__construct();
+        $this->setFont('helvetica');
+        $this->AddPage();
+    }
 
     /**
      * @param array $vars
      * @param string $path
-     * @throws MpdfException
      */
-	public function writeTemplate(string $path, array $vars){
+	public function writeTemplate(string $path, array $vars = []){
 		ob_start();
         extract($vars);
 		include $path;
-		$this->WriteHTML(ob_get_clean());
+		$this->writeHTML(ob_get_clean());
 	}
 
 

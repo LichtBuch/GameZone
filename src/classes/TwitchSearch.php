@@ -72,7 +72,7 @@ class TwitchSearch{
             }
         }
 
-        return $image;
+        return str_replace('52x72', '520x720', $image);
     }
 
     /**
