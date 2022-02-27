@@ -5,28 +5,19 @@ use GameZone\Image;
 
 $game=Game::getGame($_GET['id']??1);
 ?>
-<div class="float-left p-1 sticky-top">
-	<a href="?" class="btn btn-primary menu-button"><i class="fas fa-arrow-left w-100 h-auto"></i></a>
-</div>
-<div class="float-right p-1 sticky-top">
-	<button type="button" class="btn btn-primary  menu-button" data-toggle="modal" data-target="#gameModal">
-		<i class="far fa-edit w-100 h-auto"></i>
-	</button>
-</div>
-
 <div class="container">
 
-	<h1 class="text-center py-5"><?= $game->getGameName() ?></h1>
+	<h1 class="text-center py-5"><?=$game->getGameName()?></h1>
 
 	<div id="carouselExampleControls" class="carousel slide py-5" data-ride="carousel">
 		<ol class="carousel-indicators">
-			<?php foreach ($game->getImages() as $key=>$image): ?>
+			<?php foreach ($game->getImages() as $key=>$image):?>
 				<li data-target="#carouselExampleIndicators" data-slide-to="<?=$key?>"
-					<?php if ($key===0): ?>
+					<?php if ($key===0):?>
 						class="active"
-					<?php endif; ?>
+					<?php endif;?>
 				></li>
-			<?php endforeach; ?>
+			<?php endforeach;?>
 		</ol>
 		<div class="carousel-inner">
 			<?php foreach ($game->getImages() as $key=>$image): ?>
@@ -34,7 +25,7 @@ $game=Game::getGame($_GET['id']??1);
 				<?php if ($key===0): ?>
 					active
 				<?php endif; ?>
-			">
+			    ">
 					<img src="<?=Image::WEB_PATH?><?=$image->getImageName()?>" class="h-50 w-auto" alt="<?=$game->getGameName()?>">
 				</div>
 			<?php endforeach; ?>

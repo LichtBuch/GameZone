@@ -14,7 +14,7 @@ $games = Game::getAll();
 </script>
 <div class="container py-5">
 
-    <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#gameModal" onclick="document.getElementById('gameForm').reset()">
+    <button class="btn btn-outline-primary my-5" type="button" data-toggle="modal" data-target="#gameModal" onclick="document.getElementById('gameForm').reset()">
         <i class="fa-solid fa-plus"></i>
     </button>
 
@@ -64,9 +64,9 @@ $games = Game::getAll();
 						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
 							<i class="fa-solid fa-pen-to-square"></i>
 						</button>
-						<a type="button" class="btn btn-outline-info" href="?action=game&id=<?=$game->getGameID()?>">
+						<button type="button" class="btn btn-outline-info" onclick="location.href='?action=game&id=<?=$game->getGameID()?>'">
                             <i class="fa-solid fa-circle-info"></i>
-						</a>
+						</button>
 						<button type="button" class="btn btn-outline-warning" id="deleteButton<?=$game->getGameID()?>" onclick="deleteGame(<?=$game->getGameID()?>)">
 							<i class="fa-regular fa-trash-can"></i>
 						</button>

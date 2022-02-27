@@ -1,16 +1,69 @@
+:root{
+    --color: hsl(0, 0%, 100%);
+    --underline-width: 2px;
+    --underline-block-width: 20px;
+    --underline-color: hsla(180, 100%, 50%, 0.5);
+    --underline-color-hover: hsla(180, 100%, 50%, 1);
+    --underline-transition: 0.5s;
+    --bg: #2a475e;
+}
+
 body{
-    background-color: #2a475e;
-    color: white;
+    background: linear-gradient(180deg, var(--bg), #171a21);
+    color: var(--color);
 }
 
-.menu-button{
-    width: 5vh;
-    height: 5vh;
-
-    min-width: 48px;
-    min-height: 48px;
+.modal-content{
+    background: var(--bg);
 }
 
-.modal{
-    color: black;
+nav{
+    background: linear-gradient(135deg, #171a21, transparent, transparent);
+}
+
+form .form-control{
+    background-color: lightgray;
+}
+
+a {
+    color: var(--color);
+    text-decoration: none;
+    background-image: linear-gradient(90deg, var(--bg), var(--bg)),
+    linear-gradient(90deg, var(--underline-color), var(--underline-color));
+    background-size: var(--underline-block-width) var(--underline-width),
+    100% var(--underline-width);
+    background-repeat: no-repeat;
+    background-position-x: calc(var(--underline-block-width) * -1), 0;
+    background-position-y: 100%;
+    transition: background-position-x var(--underline-transition);
+}
+
+a:hover {
+    background-image: linear-gradient(90deg, var(--bg), var(--bg)),
+    linear-gradient(
+            90deg,
+            var(--underline-color-hover),
+            var(--underline-color-hover)
+    );
+    background-position-x: calc(100% + var(--underline-block-width)), 0;
+}
+
+.carousel-control-prev{
+    background-image: none;
+}
+
+.carousel-control-prev:hover{
+    background-image: none;
+}
+
+.carousel-control-next{
+    background-image: none;
+}
+
+.carousel-control-next:hover{
+    background-image: none;
+}
+
+tr{
+    background-color: var(--);
 }
