@@ -14,10 +14,8 @@ if(!empty($_FILES['images']['name'][0])) {
     $game->uploadImages($_FILES['images']);
 }
 
-if(!empty($_POST['categories'])){
-    $game->removeCategories();
-    $names = explode(', ', $_POST['categories']);
-    foreach (Category::getCategoriesByNames($names) as $category){
-        $game->addCategory($category);
-    }
+$game->removeCategories();
+$names = array_map('trim', explode(',', $_POST['categories']));
+foreach (Category::getCategoriesByNames($names) as $category){
+	$game->addCategory($category);
 }
