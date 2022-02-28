@@ -13,6 +13,6 @@
 </div>
 
 <form method="post" id="importForm" enctype="multipart/form-data" hidden>
-	<input type="file" name="GameFile" id="GameFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="fileChanged(this)">
+	<input type="file" name="GameFile" id="GameFile" accept=".csv" onchange="fileChanged(this)">
 	<input type="text" name="action" id="action" value="importCSV" readonly>
 </form>
