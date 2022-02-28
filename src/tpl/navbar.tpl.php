@@ -28,6 +28,13 @@
 				<a class="nav-link" href="?action=wishlist">Wishlist</a>
 			</li>
 			<li class="px-1 nav-item
+            <?php if(isset($_GET['action']) && $_GET['action'] === 'recover'):?>
+                active
+            <?php endif;?>
+            ">
+				<a class="nav-link" href="?action=recover">Recover Games</a>
+			</li>
+			<li class="px-1 nav-item
             <?php if(isset($_GET['action']) && $_GET['action'] === 'csv'):?>
                 active
             <?php endif;?>

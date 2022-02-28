@@ -32,6 +32,10 @@ if(isset($_GET['action'], $_GET['value'])){
         case 'deleteCategory':
             Category::getCategory($_GET['value'])->delete();
             break;
+
+		case 'recover':
+			Game::getGame($_GET['value'])->recover();
+			break;
 	}
 
 }

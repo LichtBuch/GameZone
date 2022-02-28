@@ -41,6 +41,10 @@ if(isset($_GET['action'])){
 		case 'csv':
 			include TPL . 'csv.tpl.php';
 			break;
+
+		case 'recover':
+			include TPL . '/recover.tpl.php';
+			break;
     }
 
 }else{

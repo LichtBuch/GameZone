@@ -556,4 +556,18 @@ class Game extends DatabaseObject{
         return $games;
     }
 
+	/**
+	 * @return Game[]
+	 */
+	public static function getDeletedGames():array {
+		$games = [];
+
+		$sql = 'SELECT * FROM games WHERE deleted = 1';
+		foreach (DB::getInstance()->query($sql) as $row){
+			$games[] = (new self())->populate($row);
+		}
+
+		return $games;
+	}
+
 }
