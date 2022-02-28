@@ -8,7 +8,9 @@ $games = Game::getWishlist();
 ?>
 <script src="/src/js/mainTable.js"></script>
 <script>
-    $(".dataTable").DataTable();
+	$(document).ready(function () {
+		$(".dataTable").DataTable();
+	})
 </script>
 <div class="container py-5">
 
