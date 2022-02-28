@@ -7,6 +7,14 @@ use PDOStatement;
 
 class Game extends DatabaseObject{
 
+	private const CSV_NAME = 0;
+	private const CSV_DESCRIPTION = 1;
+	private const CSV_RELEASE_DATE = 2;
+	private const CSV_PRICE = 3;
+	private const CSV_REVIEW = 4;
+	private const CSV_WISHLISTED = 5;
+	private const CSV_MISC = 6;
+
     public $gameID;
     public $gameName = '';
     /**
@@ -333,14 +341,30 @@ class Game extends DatabaseObject{
 		$game = new self();
 
         $game
-			->setGameName($csvArray[0])
-			->setDescription($csvArray[1])
-			->setReleaseDate($csvArray[2])
-			->setPrice($csvArray[3])
-			->setReview($csvArray[4])
-			->setWishlisted($csvArray[5])
-			->setDeleted($csvArray[6])
+			->setGameName($csvArray[self::CSV_NAME])
+			->setDescription($csvArray[self::CSV_DESCRIPTION])
+			->setReleaseDate($csvArray[self::CSV_RELEASE_DATE])
+			->setPrice((float)$csvArray[self::CSV_PRICE])
+			->setReview((int)$csvArray[self::CSV_REVIEW])
+			->setWishlisted((bool)$csvArray[self::CSV_WISHLISTED])
 			->save();
+
+		$csvSize = count($csvArray);
+
+		for ($i = self::CSV_MISC;$i < $csvSize;$i++){
+
+			// 0 => type, 1 => categoryName/extension, 2 => base64 image
+			$data = explode(':', $csvArray[$i]);
+			switch ($data[0]){
+				case 'category':
+					$game->addCategory(Category::import($data[1]));
+					break;
+
+				case 'image':
+					Image::import($game->getGameID(), $data[1], $data[2]);
+					break;
+			}
+		}
 
         return $game;
     }
@@ -398,8 +422,25 @@ class Game extends DatabaseObject{
         return $time !== false ? $time : $date;
 	}
 
-	public function exportCSV(){
+	public function exportCSV($file){
+		$csv = [];
 
+		$csv[self::CSV_NAME] = $this->getGameName();
+		$csv[self::CSV_DESCRIPTION] = $this->getDescription();
+		$csv[self::CSV_RELEASE_DATE] = $this->getReleaseDate();
+		$csv[self::CSV_PRICE] = $this->getPrice();
+		$csv[self::CSV_REVIEW] = $this->getReview();
+		$csv[self::CSV_WISHLISTED] = $this->isWishlisted();
+
+		foreach ($this->getCategories() as $category){
+			$csv[] = 'category:' . $category->getCategoryName();
+		}
+
+		foreach ($this->getImages() as $image){
+			$csv[] = 'image:' . Image::getExtension($image->getImageName()) . ':' . base64_encode(file_get_contents(Image::PATH . $image->getImageName()));
+		}
+
+		fputcsv($file, $csv, ';');
 	}
 
     /**

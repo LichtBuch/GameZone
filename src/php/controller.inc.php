@@ -37,6 +37,10 @@ if(isset($_GET['action'])){
         case 'wishlist':
             include TPL . 'wishlist.tpl.php';
             break;
+
+		case 'csv':
+			include TPL . 'csv.tpl.php';
+			break;
     }
 
 }else{

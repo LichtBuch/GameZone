@@ -117,4 +117,23 @@ class Image {
         unlink(Image::PATH . $this->getImageName());
     }
 
+	/**
+	 * @param int $gameID
+	 * @param string $extension
+	 * @param string $base64
+	 * @return Image
+	 */
+	public static function import(int $gameID, string $extension, string $base64):Image {
+		$imageName = Image::generateImageName($extension);
+		file_put_contents(Image::PATH . $imageName, base64_decode($base64));
+
+		$image = new Image();
+		$image
+			->setImageName($imageName)
+			->setGameID($gameID)
+			->save();
+
+		return $image;
+	}
+
 }

@@ -176,4 +176,19 @@ class Category extends DatabaseObject {
         DB::getInstance()->prepare('DELETE FROM categories WHERE categorieID = ?')->execute([$this->getCategoryID()]);
     }
 
+	public static function import(string $name){
+		$categories = Category::getCategoriesByNames([$name]);
+
+		if(empty($categories)){
+			$category = new Category();
+			$category
+				->setCategoryName($name)
+				->save();
+
+			return $category;
+		}
+
+		return $categories[0];
+	}
+
 }
