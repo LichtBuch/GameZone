@@ -548,7 +548,7 @@ class Game extends DatabaseObject{
     public static function getWishlist(): array{
         $games = [];
 
-        $sql = 'SELECT * FROM games WHERE wishlisted = 1';
+        $sql = 'SELECT * FROM games WHERE wishlisted = 1 AND deleted = 0';
         foreach (DB::getInstance()->query($sql) as $row){
             $games[] = (new self())->populate($row);
         }
