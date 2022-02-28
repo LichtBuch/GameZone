@@ -95,7 +95,7 @@ use GameZone\Category;
 					</div>
 				</div>
 				<div class="modal-footer d-flex justify-content-between">
-					<button type="submit" class="btn btn-outline-success" name="action" value="updateGame">
+					<button type="submit" class="btn btn-outline-primary" name="action" value="updateGame">
                         <i class="fa-regular fa-floppy-disk"></i>
                     </button>
 					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">

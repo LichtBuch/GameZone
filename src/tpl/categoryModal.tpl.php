@@ -16,7 +16,7 @@
 					</div>
 			</div>
 			<div class="modal-footer d-flex justify-content-between">
-                <button type="submit" name="action" value="saveCategory" class="btn btn-outline-success">
+                <button type="submit" name="action" value="saveCategory" class="btn btn-outline-primary">
                     <i class="fa-regular fa-floppy-disk"></i>
                 </button>
 				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">

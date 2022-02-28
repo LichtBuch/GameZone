@@ -52,6 +52,9 @@ $games = Game::getDeletedGames();
 						<?php for ($i = 0;$i < $game->getReview();$i++):?>
 							<i class="fa-solid fa-star"></i>
 						<?php endfor;?>
+						<?php for(;$i < 5;$i++):?>
+							<i class="fa-regular fa-star"></i>
+						<?php endfor;?>
 					</div>
 				</th>
 				<th>

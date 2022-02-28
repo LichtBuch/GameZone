@@ -34,6 +34,11 @@ async function getImages(gameCount){
     }
 
     $('.datatable').DataTable();
+
+    const params = getParams();
+    if(params.hasOwnProperty("query")){
+        search(params.query);
+    }
 }
 
 function sleep(ms) {
@@ -68,4 +73,20 @@ function deleteGame(id){
 
 function search(query){
     $(".dataTable").DataTable().search(query).draw();
+}
+
+function getParams (){
+    const result = {};
+    let tmp = [];
+
+    location.search
+        .substring(1)
+        .split("&")
+        .forEach(function (item)
+        {
+            tmp = item.split ("=");
+            result[tmp[0]] = decodeURIComponent(tmp[1]);
+        });
+
+    return result;
 }

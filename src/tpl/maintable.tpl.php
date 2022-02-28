@@ -12,6 +12,11 @@ $games = Game::getAll();
 		getImages(<?=count($games)?>);
 	});
 </script>
+<?php if(isset($_GET['query'])):?>
+	<script>
+
+	</script>
+<?php endif;?>
 <div class="container py-5">
 
     <button class="btn btn-outline-primary my-5" type="button" data-toggle="modal" data-target="#gameModal" onclick="document.getElementById('gameForm').reset()">
@@ -23,7 +28,7 @@ $games = Game::getAll();
 			<tr>
 				<th>Image</th>
 				<th>Name</th>
-				<th>Realease Date</th>
+				<th>Release Date</th>
 				<th>Price</th>
 				<th>Categories</th>
 				<th>Review</th>
@@ -55,6 +60,9 @@ $games = Game::getAll();
                             <?php for ($i = 0;$i < $game->getReview();$i++):?>
                                 <i class="fa-solid fa-star"></i>
                             <?php endfor;?>
+							<?php for(;$i < 5;$i++):?>
+								<i class="fa-regular fa-star"></i>
+							<?php endfor;?>
                         </div>
 					</th>
 					<th>
@@ -64,7 +72,7 @@ $games = Game::getAll();
 								<i class="fa-solid fa-heart"></i>
 							<?php else:?>
 								<span hidden>No</span>
-								<i class="fa-solid fa-ban"></i>
+								<i class="fa-regular fa-heart"></i>
 							<?php endif;?>
 						</button>
 					</th>

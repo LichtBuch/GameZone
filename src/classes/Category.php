@@ -173,7 +173,10 @@ class Category extends DatabaseObject {
 	}
 
     public function delete(){
-        DB::getInstance()->prepare('DELETE FROM categories WHERE categorieID = ?')->execute([$this->getCategoryID()]);
+		$params = [$this->getCategoryID()];
+		$db = DB::getInstance();
+		$db->prepare('DELETE FROM gameCategories WHERE categorieID = ?')->execute($params);
+       	$db->prepare('DELETE FROM categories WHERE categorieID = ?')->execute($params);
     }
 
 	public static function import(string $name){

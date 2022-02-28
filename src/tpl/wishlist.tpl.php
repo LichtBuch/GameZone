@@ -48,23 +48,20 @@ $games = Game::getWishlist();
                         </span>
                     <?php endforeach;?>
                 </th>
-                <th>
-                    <div class="d-flex">
-                        <span hidden><?=$game->getReview()?></span>
-                        <?php for ($i = 0;$i < $game->getReview();$i++):?>
-                            <i class="fa-solid fa-star"></i>
-                        <?php endfor;?>
-                    </div>
-                </th>
+				<th>
+					<div class="d-flex">
+						<span hidden><?=$game->getReview()?></span>
+						<?php for ($i = 0;$i < $game->getReview();$i++):?>
+							<i class="fa-solid fa-star"></i>
+						<?php endfor;?>
+						<?php for(;$i < 5;$i++):?>
+							<i class="fa-regular fa-star"></i>
+						<?php endfor;?>
+					</div>
+				</th>
                 <th>
                     <button type="button" class="btn btn-outline-danger" id="favorButton<?=$game->getGameID()?>" onclick="switchFavorite(<?=$game->getGameID()?>)">
-                        <?php if($game->isWishlisted()):?>
-                            <span hidden>Yes</span>
-                            <i class="fa-solid fa-heart"></i>
-                        <?php else:?>
-                            <span hidden>No</span>
-                            <i class="fa-solid fa-ban"></i>
-                        <?php endif;?>
+						<i class="fa-solid fa-heart"></i>
                     </button>
                 </th>
             </tr>
