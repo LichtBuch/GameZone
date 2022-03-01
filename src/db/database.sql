@@ -2,15 +2,15 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "gameCategories" (
 	"gameID"	INTEGER NOT NULL,
 	"categorieID"	INTEGER NOT NULL,
-	PRIMARY KEY("gameID","categorieID"),
 	FOREIGN KEY("categorieID") REFERENCES "categories"("categorieID"),
-	FOREIGN KEY("gameID") REFERENCES "games"("gameID")
+	FOREIGN KEY("gameID") REFERENCES "games"("gameID"),
+	PRIMARY KEY("gameID","categorieID")
 );
 CREATE TABLE IF NOT EXISTS "images" (
 	"imageName"	TEXT NOT NULL,
 	"gameID"	INTEGER NOT NULL,
-	PRIMARY KEY("imageName"),
-	FOREIGN KEY("gameID") REFERENCES "games"("gameID")
+	FOREIGN KEY("gameID") REFERENCES "games"("gameID"),
+	PRIMARY KEY("imageName")
 );
 CREATE TABLE IF NOT EXISTS "categories" (
 	"categorieID"	INTEGER NOT NULL,
@@ -43,4 +43,5 @@ CREATE INDEX IF NOT EXISTS "gameCategoriesIndex" ON "gameCategories" (
 CREATE INDEX IF NOT EXISTS "gameNames" ON "games" (
 	"gameName"
 );
+CREATE VIEW categoryRarity AS SELECT categories.categorieID, COUNT(*) as categoryCount FROM gameCategories INNER JOIN categories ON gameCategories.categorieID=categories.categorieID GROUP BY categories.categorieID;
 COMMIT;

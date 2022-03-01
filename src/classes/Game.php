@@ -511,7 +511,7 @@ class Game extends DatabaseObject{
             $db = DB::getInstance();
             $prepare = $db->prepareArray($params);
             $params[] = $this->getGameID();
-            $sql = "SELECT DISTINCT games.* FROM games INNER JOIN gameCategories ON games.gameID = gameCategories.gameID WHERE gameCategories.categorieID IN($prepare) AND games.deleted = 0 AND NOT games.gameID = ? ORDER BY RANDOM()";
+            $sql = "SELECT DISTINCT games.* FROM games INNER JOIN gameCategories ON games.gameID = gameCategories.gameID INNER JOIN categoryRarity ON gameCategories.categorieID = categoryRarity.categorieID WHERE gameCategories.categorieID IN($prepare) AND games.deleted = 0 AND NOT games.gameID = ? ORDER BY categoryRarity.categoryCount";
 
             $statement = $db->prepare($sql);
             if ($statement->execute($params)) {
