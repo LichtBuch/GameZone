@@ -12,16 +12,23 @@ $games = Game::getAll();
 		getImages(<?=count($games)?>);
 	});
 </script>
-<?php if(isset($_GET['query'])):?>
-	<script>
-
-	</script>
-<?php endif;?>
 <div class="container py-5">
 
-    <button class="btn btn-outline-primary my-5" type="button" data-toggle="modal" data-target="#gameModal" onclick="document.getElementById('gameForm').reset()">
-        <i class="fa-solid fa-plus"></i>
-    </button>
+	<div class="d-flex justify-content-between">
+		<div>
+			<button class="btn btn-outline-primary my-5" type="button" data-toggle="modal" data-target="#gameModal" onclick="document.getElementById('gameForm').reset()">
+				<i class="fa-solid fa-plus"></i>
+			</button>
+		</div>
+		<div>
+			<button class="btn btn-outline-primary my-5" onclick="openFile()">
+				Import <i class="fa-solid fa-file-import"></i>
+			</button>
+			<button class="btn btn-outline-primary my-5" onclick="window.location.href='/export.php'">
+				Export <i class="fa-solid fa-file-export"></i>
+			</button>
+		</div>
+	</div>
 
 	<table class="table dataTable">
 		<thead>
@@ -33,7 +40,7 @@ $games = Game::getAll();
 				<th>Categories</th>
 				<th>Review</th>
 				<th>Wishlisted</th>
-				<th>Optionen</th>
+				<th>Options</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -45,11 +52,14 @@ $games = Game::getAll();
 						<th><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" width="52" height="72"></th>
 					<?php endif;?>
 					<th><?=$game->getGameName()?></th>
-					<th><?=DatabaseObject::formatTime($game->getReleaseDate())?></th>
+					<th>
+						<span hidden><?=date('Y-m-d', $game->getReleaseDate())?></span>
+						<?=DatabaseObject::formatTime($game->getReleaseDate())?>
+					</th>
 					<th><?=$game->getPriceFormatted()?> €</th>
 					<th>
                         <?php foreach ($game->getCategories() as $category):?>
-                            <span class="badge badge-pill badge-info m-1" onclick="search('<?=$category->getCategoryName()?>')">
+                            <span class="badge badge-pill badge-info m-1" onclick="search('<?=addslashes($category->getCategoryName())?>')">
                                 <?=$category->getCategoryName()?>
                             </span>
                         <?php endforeach;?>
@@ -95,3 +105,7 @@ $games = Game::getAll();
 	</table>
 </div>
 <?php include_once TPL . 'gameModal.tpl.php';?>
+<form method="post" id="importForm" enctype="multipart/form-data" hidden>
+	<input type="file" name="GameFile" id="GameFile" accept=".csv" onchange="fileChanged(this)">
+	<input type="text" name="action" id="action" value="importCSV" readonly>
+</form>

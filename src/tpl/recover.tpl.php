@@ -25,7 +25,7 @@ $games = Game::getDeletedGames();
 			<th>Categories</th>
 			<th>Review</th>
 			<th>Wishlisted</th>
-			<th>Optionen</th>
+			<th>Options</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -37,11 +37,14 @@ $games = Game::getDeletedGames();
 					<th><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" width="52" height="72"></th>
 				<?php endif;?>
 				<th><?=$game->getGameName()?></th>
-				<th><?=DatabaseObject::formatTime($game->getReleaseDate())?></th>
+				<th>
+					<span hidden><?=date('Y-m-d', $game->getReleaseDate())?></span>
+					<?=DatabaseObject::formatTime($game->getReleaseDate())?>
+				</th>
 				<th><?=$game->getPriceFormatted()?> €</th>
 				<th>
 					<?php foreach ($game->getCategories() as $category):?>
-						<span class="badge badge-pill badge-info m-1" onclick="search('<?=$category->getCategoryName()?>')">
+						<span class="badge badge-pill badge-info m-1" onclick="search('<?=addslashes($category->getCategoryName())?>')">
                                 <?=$category->getCategoryName()?>
                             </span>
 					<?php endforeach;?>
@@ -64,7 +67,7 @@ $games = Game::getDeletedGames();
 							<i class="fa-solid fa-heart"></i>
 						<?php else:?>
 							<span hidden>No</span>
-							<i class="fa-solid fa-ban"></i>
+							<i class="fa-regular fa-heart"></i>
 						<?php endif;?>
 					</button>
 				</th>

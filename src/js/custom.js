@@ -14,12 +14,13 @@ function request(requestData, callback) {
 }
 
 function setGame(game) {
-
     game = JSON.parse(game);
 
     document.getElementById("gameID").valueAsNumber = game.gameID;
     document.getElementById("gameName").value = game.gameName;
-    document.getElementById("description").value = game.description;
+    const description = document.getElementById("description");
+    description.value = game.description;
+    description.rows = Math.round(game.description.length / 50) + 3;
     document.getElementById("releaseDate").valueAsDate = new Date(game.releaseDate * 1000);
     document.getElementById("price").value = game.price;
     document.getElementById("review").value = game.review;
@@ -42,7 +43,6 @@ function getCategory(id){
 }
 
 function setCategory(category){
-
     category = JSON.parse(category);
 
     document.getElementById("categorieID").valueAsNumber = category.categoryID;
@@ -56,7 +56,12 @@ function reload(){
     window.location = window.location.href;
 }
 
-function getFormattedDate(timestamp) {
-    const date = new Date(timestamp);
-    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+function openFile(){
+    $("#GameFile").click();
+}
+
+function fileChanged(input){
+    if($(input).val()){
+        $("#importForm").submit();
+    }
 }

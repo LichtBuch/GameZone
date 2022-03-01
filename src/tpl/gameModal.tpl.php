@@ -98,7 +98,7 @@ use GameZone\Category;
 					<button type="submit" class="btn btn-outline-primary" name="action" value="updateGame">
                         <i class="fa-regular fa-floppy-disk"></i>
                     </button>
-					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+					<button type="button" class="btn btn-outline-warning" data-dismiss="modal">
                         <i class="fa-regular fa-circle-xmark"></i>
                     </button>
 				</div>

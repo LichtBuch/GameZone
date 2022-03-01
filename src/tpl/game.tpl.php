@@ -5,22 +5,26 @@ use GameZone\Game;
 use GameZone\Image;
 
 $game=Game::getGame($_GET['id']??1);
+$similarGames = $game->getSimilarGames();
 ?>
 <script src="/src/js/mainTable.js"></script>
 <div class="col-8 mx-auto py-5">
 
 	<div class="d-flex justify-content-between">
-		<div class="row">
+		<div>
 			<h1>
 				<?=$game->getGameName()?>
 				<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
 					<i class="far fa-edit"></i>
 				</button>
+				<button class="btn btn-outline-info" type="button" onclick="window.location.href='/print.php?id=<?=$game->getGameID()?>'">
+					<i class="fa-solid fa-print"></i>
+				</button>
 				<button type="button" class="btn btn-outline-danger" id="favorButton<?=$game->getGameID()?>" onclick="switchFavorite(<?=$game->getGameID()?>)">
 					<?php if($game->isWishlisted()):?>
 						<i class="fa-solid fa-heart"></i>
 					<?php else:?>
-						<i class="fa-solid fa-ban"></i>
+						<i class="fa-regular fa-heart"></i>
 					<?php endif;?>
 				</button>
 			</h1>
@@ -35,7 +39,7 @@ $game=Game::getGame($_GET['id']??1);
 		</div>
 	</div>
 
-	<hr class="neonText">
+	<hr>
 
 	<div class="row">
 		<div class="col-sm-12 col-xl-6 pb-sm-5">
@@ -72,7 +76,7 @@ $game=Game::getGame($_GET['id']??1);
 							active
 						<?php endif; ?>
 			    		">
-							<img src="<?=Image::WEB_PATH?><?=$image->getImageName()?>" class="w-auto h-75" alt="<?=$game->getGameName()?>">
+							<img src="<?=Image::WEB_PATH?><?=$image->getImageName()?>" class="w-auto h-75">
 						</div>
 					<?php endforeach; ?>
 				</div>
@@ -88,7 +92,49 @@ $game=Game::getGame($_GET['id']??1);
 		</div>
 	</div>
 
-	<hr class="neonText">
+	<hr class="mt-5">
+
+	<?php if(!empty($similarGames)):?>
+
+		<h1 class="py-5">Recommendations</h1>
+
+		<div class="w-100 h-50">
+			<div id="recommandations" class="carousel slide py-5" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<?php foreach ($similarGames as $key=>$similarGame):?>
+						<li data-target="#carouselExampleIndicators" data-slide-to="<?=$key?>"
+							<?php if ($key===0):?>
+								class="active"
+							<?php endif;?>
+						></li>
+					<?php endforeach;?>
+				</ol>
+				<div class="carousel-inner">
+					<?php foreach ($similarGames as $key=>$similarGame):?>
+						<a href="?action=game&id=<?=$similarGame->getGameID()?>" class="carousel-item text-center
+							<?php if ($key===0): ?>
+								active
+							<?php endif; ?>
+							">
+							<img src="<?=Image::WEB_PATH?><?=$similarGame->getImages()[0]->getImageName()?>" class="w-auto h-75">
+							<div class="carousel-caption d-none d-md-block">
+								<h5><?=$similarGame->getGameName()?></h5>
+							</div>
+						</a>
+					<?php endforeach; ?>
+				</div>
+				<a class="carousel-control-prev" href="#recommandations" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#recommandations" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+
+	<?php endif;?>
 
 </div>
 <?php include TPL . 'gameModal.tpl.php';?>

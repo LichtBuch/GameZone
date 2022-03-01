@@ -34,13 +34,6 @@
             ">
 				<a class="nav-link" href="?action=recover">Recover Games</a>
 			</li>
-			<li class="px-1 nav-item
-            <?php if(isset($_GET['action']) && $_GET['action'] === 'csv'):?>
-                active
-            <?php endif;?>
-            ">
-				<a class="nav-link" href="?action=csv">Import/Export</a>
-			</li>
 		</ul>
 	</div>
 </nav>

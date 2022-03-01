@@ -1,5 +1,5 @@
 :root{
-    --color: white;
+    --color: #F8F8FF;
     --underline-width: 2px;
     --underline-block-width: 20px;
     --underline-color: hsla(180, 100%, 50%, 0.5);
@@ -96,9 +96,82 @@ hr{
 .btn-outline-primary:hover{
     color: var(--bg);
     background-color: var(--underline-color-hover);
+    box-shadow: 0 0 0 0.2rem rgba(0,241,255,.5);
 }
 
-.btn-outline-primary:focus{
+.btn-outline-warning{
+    color: #FFC145;
+    border-color: #FFC145;
+}
+
+.btn-outline-warning:hover{
     color: var(--bg);
+    background-color: #FFC145;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 69, 0.5) !important;
+}
+
+.btn-outline-warning:active{
+    color: var(--bg);
+    background-color: #FFC145;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 69, 0.5) !important;
+}
+
+.btn-outline-primary:active{
+    color: var(--bg) !important;
+    background-color: var(--underline-color-hover) !important;
+}
+
+.btn-outline-info{
+    color: #858AE3;
+    border-color: #858AE3;
+}
+
+.btn-outline-info:hover{
+    color: var(--color);
+    background-color: #858AE3 !important;
+    box-shadow: 0 0 0 0.2rem rgba(133, 138, 227, 0.5) !important;
+    border-color: #858AE3;
+}
+
+.btn-outline-info:active{
+    color: var(--color) !important;
+    background-color: #858AE3 !important;
+    box-shadow: 0 0 0 0.2rem rgba(133, 138, 227, 0.5)  !important;
+    border-color: #858AE3;
+}
+
+.btn-outline-danger{
+    color: #CC5A71;
+    border-color: #CC5A71;
+}
+
+.btn-outline-danger:hover{
+    color: var(--color);
+    background-color: #CC5A71 !important;
+    border-color: #CC5A71;
+    box-shadow: 0 0 0 0.2rem rgba(204, 90, 113, 0.5) !important;
+}
+
+.btn-outline-danger:active{
+    color: var(--color);
+    background-color: #CC5A71 !important;
+    border-color: #CC5A71;
+    box-shadow: 0 0 0 0.2rem rgba(204, 90, 113, 0.5) !important;
+}
+
+.badge-info{
     background-color: var(--underline-color-hover);
+    color: var(--bg);
+}
+
+.carousel-item{
+    background-image: none;
+}
+
+.carousel-item:hover{
+    background-image: none;
+}
+
+.badge-info:hover{
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 255, 0.5) !important;
 }

@@ -14,7 +14,7 @@ $games = Game::getWishlist();
 </script>
 <div class="container py-5">
 
-    <button class="btn btn-outline-primary my-5" type="button" data-toggle="modal" data-target="#gameModal" onclick="window.location.href='/print.php'">
+    <button class="btn btn-outline-info my-5" onclick="window.location.href='/print.php'">
         <i class="fa-solid fa-print"></i>
     </button>
 
@@ -39,11 +39,14 @@ $games = Game::getWishlist();
                     <th><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" width="52" height="72"></th>
                 <?php endif;?>
                 <th><?=$game->getGameName()?></th>
-                <th><?=DatabaseObject::formatTime($game->getReleaseDate())?></th>
+                <th>
+					<span hidden><?=date('Y-m-d', $game->getReleaseDate())?></span>
+					<?=DatabaseObject::formatTime($game->getReleaseDate())?>
+				</th>
                 <th><?=$game->getPriceFormatted()?> €</th>
                 <th>
                     <?php foreach ($game->getCategories() as $category):?>
-                        <span class="badge badge-pill badge-info m-1" onclick="search('<?=$category->getCategoryName()?>')">
+                        <span class="badge badge-pill badge-info m-1" onclick="search('<?=addslashes($category->getCategoryName())?>')">
                             <?=$category->getCategoryName()?>
                         </span>
                     <?php endforeach;?>

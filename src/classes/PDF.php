@@ -15,7 +15,6 @@ class PDF extends TCPDF {
     public function __construct(){
         parent::__construct();
         $this->setFont('helvetica');
-        $this->AddPage();
     }
 
     /**

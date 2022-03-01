@@ -19,7 +19,7 @@
                 <button type="submit" name="action" value="saveCategory" class="btn btn-outline-primary">
                     <i class="fa-regular fa-floppy-disk"></i>
                 </button>
-				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+				<button type="button" class="btn btn-outline-warning" data-dismiss="modal">
                     <i class="fa-regular fa-circle-xmark"></i>
                 </button>
 			</div>
