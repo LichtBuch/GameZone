@@ -21,6 +21,8 @@ $games=Game::getDeletedGames();
 </script>
 <div class="container py-5">
 
+	<div class="py-5"><div class="py-3"></div></div>
+
 	<table class="table dataTable">
 		<thead>
 		<tr>
