@@ -349,7 +349,7 @@ class Game extends DatabaseObject {
 
 		$game=new self();
 
-		$game->setGameName($csvArray[self::CSV_NAME])->setDescription($csvArray[self::CSV_DESCRIPTION])->setReleaseDate($csvArray[self::CSV_RELEASE_DATE])->setPrice((float) $csvArray[self::CSV_PRICE])->setReview((int) $csvArray[self::CSV_REVIEW])->setWishlisted((bool) $csvArray[self::CSV_WISHLISTED])->save();
+		$game->setGameName($csvArray[self::CSV_NAME])->setDescription(str_replace('<br>', PHP_EOL, $csvArray[self::CSV_DESCRIPTION]))->setReleaseDate($csvArray[self::CSV_RELEASE_DATE])->setPrice((float) $csvArray[self::CSV_PRICE])->setReview((int) $csvArray[self::CSV_REVIEW])->setWishlisted((bool) $csvArray[self::CSV_WISHLISTED])->save();
 
 		$csvSize=count($csvArray);
 
@@ -426,7 +426,7 @@ class Game extends DatabaseObject {
 		$csv=[];
 
 		$csv[self::CSV_NAME]=$this->getGameName();
-		$csv[self::CSV_DESCRIPTION]=$this->getDescription();
+		$csv[self::CSV_DESCRIPTION]=str_replace(["\r", "\n", "\r\n"], '<br>', $this->getDescription());
 		$csv[self::CSV_RELEASE_DATE]=$this->getReleaseDate();
 		$csv[self::CSV_PRICE]=$this->getPrice();
 		$csv[self::CSV_REVIEW]=$this->getReview();
