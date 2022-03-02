@@ -19,7 +19,7 @@ use GameZone\Category;
 			<thead>
 			<tr>
 				<th>Name</th>
-				<th>Options</th>
+				<th data-orderable="false">Options</th>
 			</tr>
 			</thead>
 			<tbody>

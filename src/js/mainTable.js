@@ -27,7 +27,7 @@ async function getImages(ids){
         await sleep(250);
     }
 
-    $('.datatable').DataTable();
+    startTable();
 
     const params = getParams();
     if(params.hasOwnProperty("query")){
@@ -85,6 +85,15 @@ function getParams (){
     return result;
 }
 
-function reset(){
+function startTable(){
+    $('.datatable').DataTable({
+        "order": [[1, "asc"]],
+        "pageLength": document.cookie.split("=")[1]
+    });
+
+
+    $(".custom-select").change(function (){
+        document.cookie = "option=" + $(this).val();
+    });
 
 }

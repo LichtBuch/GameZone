@@ -39,14 +39,14 @@ $games=Game::getAll();
 	<table class="table dataTable">
 		<thead>
 		<tr>
-			<th>Image</th>
+			<th data-orderable="false">Image</th>
 			<th>Name</th>
 			<th>Release Date</th>
 			<th>Price</th>
 			<th>Categories</th>
 			<th>Review</th>
 			<th>Wishlisted</th>
-			<th>Options</th>
+			<th data-orderable="false">Options</th>
 		</tr>
 		</thead>
 		<tbody>
