@@ -12,7 +12,7 @@
 					</div>
 					<div class="form-group">
 						<label for="categoryName">Name</label>
-						<input type="text" class="form-control" id="categoryName" name="categoryName">
+						<input type="text" class="form-control" id="categoryName" name="categoryName" required>
 					</div>
 			</div>
 			<div class="modal-footer d-flex justify-content-between">
