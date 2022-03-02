@@ -175,3 +175,19 @@ hr{
 .badge-info:hover{
     box-shadow: 0 0 0 0.2rem rgba(0, 255, 255, 0.5) !important;
 }
+
+#DataTables_Table_0_paginate > ul > li.paginate_button.page-item.active > a{
+    background-color: var(--bg);
+    background-image: none;
+    color: var(--color);
+    border-color: rgba(0, 255, 255, 0.5);
+}
+
+#DataTables_Table_0_paginate > ul > li > a{
+    color: var(--bg);
+    background-image: none;
+}
+
+#DataTables_Table_0_paginate > ul > li.paginate_button.page-item.disabled > a{
+    color: gray;
+}
