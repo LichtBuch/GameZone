@@ -2,7 +2,7 @@
 
 namespace GameZone;
 
-class CSV{
+class CSV {
 
 	/**
 	 * @var string
@@ -54,22 +54,22 @@ class CSV{
 		$this->setPath($path);
 	}
 
-	public function write(){
-		$this->file = fopen($this->getPath(), 'w');
+	public function write() {
+		$this->file=fopen($this->getPath(), 'w');
 
-		foreach ($this->getGames() as $game){
+		foreach ($this->getGames() as $game) {
 			$game->exportCSV($this->file);
 		}
 
 		fclose($this->file);
 	}
 
-	public function read(){
-		$this->file = fopen($this->getPath(), 'r');
+	public function read() {
+		$this->file=fopen($this->getPath(), 'r');
 
-		while (!feof($this->file)){
-			$csvArray = fgetcsv($this->file, 0, ';');
-			if(is_array($csvArray)) {
+		while (!feof($this->file)) {
+			$csvArray=fgetcsv($this->file, 0, ';');
+			if (is_array($csvArray)) {
 				Game::importCSV($csvArray);
 			}
 		}
@@ -77,8 +77,8 @@ class CSV{
 		fclose($this->file);
 	}
 
-	public function send(){
-		$filename = $this->getFilename();
+	public function send() {
+		$filename=$this->getFilename();
 		header('Content-type: application/csv');
 		header("Content-Disposition: inline; filename=$filename");
 		readfile($this->getPath());
@@ -89,7 +89,7 @@ class CSV{
 	 * @return string
 	 */
 	private function getFilename():string {
-		return substr($this->getPath(), strrpos($this->getPath(), DIRECTORY_SEPARATOR) + 1);
+		return substr($this->getPath(), strrpos($this->getPath(), DIRECTORY_SEPARATOR)+1);
 	}
 
 }

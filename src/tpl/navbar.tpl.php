@@ -7,30 +7,30 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="px-1 nav-item
-            <?php if(empty($_GET)):?>
+            <?php if (empty($_GET)): ?>
                 active
-            <?php endif;?>
+            <?php endif; ?>
             ">
 				<a class="nav-link" href="?">Game List</a>
 			</li>
 			<li class="px-1 nav-item
-            <?php if(isset($_GET['action']) && $_GET['action'] === 'categories'):?>
+            <?php if (isset($_GET['action'])&&$_GET['action']==='categories'): ?>
                 active
-            <?php endif;?>
+            <?php endif; ?>
             ">
 				<a class="nav-link" href="?action=categories">Categories</a>
 			</li>
 			<li class="px-1 nav-item
-            <?php if(isset($_GET['action']) && $_GET['action'] === 'wishlist'):?>
+            <?php if (isset($_GET['action'])&&$_GET['action']==='wishlist'): ?>
                 active
-            <?php endif;?>
+            <?php endif; ?>
             ">
 				<a class="nav-link" href="?action=wishlist">Wishlist</a>
 			</li>
 			<li class="px-1 nav-item
-            <?php if(isset($_GET['action']) && $_GET['action'] === 'recover'):?>
+            <?php if (isset($_GET['action'])&&$_GET['action']==='recover'): ?>
                 active
-            <?php endif;?>
+            <?php endif; ?>
             ">
 				<a class="nav-link" href="?action=recover">Recover Games</a>
 			</li>

@@ -1,53 +1,56 @@
 <?php
+
 use GameZone\Category;
+
 ?>
 <script>
-	$(function() {
+	$(function () {
 		const availableTags = [
 			<?php foreach (Category::getAll() as $category):?>
-				"<?=$category->getCategoryName()?>",
+			"<?=$category->getCategoryName()?>",
 			<?php endforeach;?>
 		];
 
-		function split( val ) {
-			return val.split( /,\s*/ );
-		}
-		function extractLast( term ) {
-			return split( term ).pop();
+		function split(val) {
+			return val.split(/,\s*/);
 		}
 
-		$( "#categories" )
+		function extractLast(term) {
+			return split(term).pop();
+		}
+
+		$("#categories")
 			// don't navigate away from the field on tab when selecting an item
-			.on( "keydown", function( event ) {
-				if ( event.keyCode === $.ui.keyCode.TAB &&
-					$( this ).autocomplete( "instance" ).menu.active ) {
+			.on("keydown", function (event) {
+				if (event.keyCode === $.ui.keyCode.TAB &&
+					$(this).autocomplete("instance").menu.active) {
 					event.preventDefault();
 				}
 			})
 			.autocomplete({
 				minLength: 0,
-				source: function( request, response ) {
+				source: function (request, response) {
 					// delegate back to autocomplete, but extract the last term
-					response( $.ui.autocomplete.filter(
-						availableTags, extractLast( request.term ) ) );
+					response($.ui.autocomplete.filter(
+						availableTags, extractLast(request.term)));
 				},
-				focus: function() {
+				focus: function () {
 					// prevent value inserted on focus
 					return false;
 				},
-				select: function( event, ui ) {
+				select: function (event, ui) {
 					const terms = split(this.value);
 					// remove the current input
 					terms.pop();
 					// add the selected item
-					terms.push( ui.item.value );
+					terms.push(ui.item.value);
 					// add placeholder to get the comma-and-space at the end
-					terms.push( "" );
-					this.value = terms.join( ", " );
+					terms.push("");
+					this.value = terms.join(", ");
 					return false;
 				}
 			});
-	} );
+	});
 </script>
 <div class="modal fade" id="gameModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -55,7 +58,7 @@ use GameZone\Category;
 			<div class="modal-header">
 				<h5 class="modal-title" id="gameModalTitle">Game</h5>
 			</div>
-			<form method="post" enctype="multipart/form-data" action="?<?=http_build_query($_GET)?>" id="gameForm">
+			<form method="post" enctype="multipart/form-data" action="?<?= http_build_query($_GET) ?>" id="gameForm">
 				<div class="modal-body">
 					<div class="form-group" hidden>
 						<label for="gameID">Game ID</label>
@@ -91,16 +94,17 @@ use GameZone\Category;
 					</div>
 					<div class="form-check">
 						<input type="checkbox" class="form-check-input" name="wishlisted" id="wishlisted">
-						<label for="wishlisted" class="form-check-label">Wishlisted <i class="fa-solid fa-heart"></i></label>
+						<label for="wishlisted" class="form-check-label">Wishlisted
+							<i class="fa-solid fa-heart"></i></label>
 					</div>
 				</div>
 				<div class="modal-footer d-flex justify-content-between">
 					<button type="submit" class="btn btn-outline-primary" name="action" value="updateGame">
-                        <i class="fa-regular fa-floppy-disk"></i>
-                    </button>
+						<i class="fa-regular fa-floppy-disk"></i>
+					</button>
 					<button type="button" class="btn btn-outline-warning" data-dismiss="modal">
-                        <i class="fa-regular fa-circle-xmark"></i>
-                    </button>
+						<i class="fa-regular fa-circle-xmark"></i>
+					</button>
 				</div>
 			</form>
 		</div>
