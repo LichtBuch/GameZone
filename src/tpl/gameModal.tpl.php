@@ -87,7 +87,7 @@ use GameZone\Category;
 					</div>
 					<div class="form-group">
 						<label for="images">Images <i class="fa-regular fa-images"></i></label>
-						<input type="file" class="form-control-file" name="images[]" id="images" multiple>
+						<input type="file" class="form-control-file" name="images[]" id="images" accept="image/*" multiple>
 					</div>
 					<div class="form-check">
 						<input type="checkbox" class="form-check-input" name="wishlisted" id="wishlisted">

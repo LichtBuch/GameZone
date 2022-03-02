@@ -1,36 +1,30 @@
-async function getImages(gameCount){
+async function getImages(ids){
 
     const imageRequest = new RequestData("getImage", "");
 
-    for (let i = 0;i < gameCount;i++){
+    for (const id of ids) {
+        const element = document.getElementById(`image${id}`);
+        imageRequest.value = element.dataset.name;
 
-        const elementID = `image${i}`;
+        request(imageRequest, (src) => {
 
-        if(document.getElementById(elementID) != null){
+            let image;
 
-            const element = document.getElementById(elementID);
-            imageRequest.value = element.dataset.name;
+            if(src.length > 0) {
+                image = document.createElement("img");
+                image.src = src;
+                image.className = "w-auto";
+                image.height = 72;
+            }else {
+                image = document.createElement("span");
+                image.innerText = "No image found";
+            }
 
-            request(imageRequest, (src) => {
+            element.innerHTML = "";
+            element.appendChild(image);
+        });
 
-                let image;
-
-                if(src.length > 0) {
-                    image = document.createElement("img");
-                    image.src = src;
-                    image.width = 52;
-                    image.height = 72;
-                }else {
-                    image = document.createElement("span");
-                    image.innerText = "No image found";
-                }
-
-                element.innerHTML = "";
-                element.appendChild(image);
-            });
-
-            await sleep(250);
-        }
+        await sleep(250);
     }
 
     $('.datatable').DataTable();
@@ -89,4 +83,8 @@ function getParams (){
         });
 
     return result;
+}
+
+function reset(){
+
 }

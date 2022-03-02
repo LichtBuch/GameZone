@@ -9,7 +9,13 @@ $games = Game::getAll();
 <script src="/src/js/mainTable.js"></script>
 <script>
 	$(document).ready(function (){
-		getImages(<?=count($games)?>);
+		getImages([
+			<?php foreach ($games as $game):?>
+				<?php if(empty($game->getImages())):?>
+					<?=$game->getGameID()?>,
+				<?php endif;?>
+			<?php endforeach;?>
+		]);
 	});
 </script>
 <div class="container py-5">
@@ -44,12 +50,12 @@ $games = Game::getAll();
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach($games as $key => $game):?>
+			<?php foreach($games as $game):?>
 				<tr>
 					<?php if(empty($game->getImages())):?>
-						<th id="image<?=$key?>" data-name="<?=$game->getGameName()?>"><i class="fas fa-spinner fa-spin"></i></th>
+						<th class="text-center" id="image<?=$game->getGameID()?>" data-name="<?=$game->getGameName()?>"><i class="fas fa-spinner fa-spin"></i></th>
 					<?php else:?>
-						<th><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" width="52" height="72"></th>
+						<th class="text-center"><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" height="72" class="w-auto"></th>
 					<?php endif;?>
 					<th><?=$game->getGameName()?></th>
 					<th>
@@ -88,13 +94,13 @@ $games = Game::getAll();
 					</th>
 					<th>
                         <div class="d-flex">
-                            <button type="button" class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
+                            <button type="button" class="btn btn-outline-primary mx-1" data-toggle="modal" data-target="#gameModal" onclick="getGame(<?=$game->getGameID()?>)">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <button type="button" class="btn btn-outline-info m-1" onclick="location.href='?action=game&id=<?=$game->getGameID()?>'">
+                            <button type="button" class="btn btn-outline-info mx-1" onclick="location.href='?action=game&id=<?=$game->getGameID()?>'">
                                 <i class="fa-solid fa-circle-info"></i>
                             </button>
-                            <button type="button" class="btn btn-outline-warning m-1" id="deleteButton<?=$game->getGameID()?>" onclick="deleteGame(<?=$game->getGameID()?>)">
+                            <button type="button" class="btn btn-outline-warning mx-1" id="deleteButton<?=$game->getGameID()?>" onclick="deleteGame(<?=$game->getGameID()?>)">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </div>

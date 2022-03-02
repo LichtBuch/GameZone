@@ -8,9 +8,15 @@ $games = Game::getWishlist();
 ?>
 <script src="/src/js/mainTable.js"></script>
 <script>
-	$(document).ready(function () {
-		$(".dataTable").DataTable();
-	})
+	$(document).ready(function (){
+		getImages([
+			<?php foreach ($games as $game):?>
+				<?php if(empty($game->getImages())):?>
+					<?=$game->getGameID()?>,
+				<?php endif;?>
+			<?php endforeach;?>
+		]);
+	});
 </script>
 <div class="container py-5">
 
@@ -28,15 +34,16 @@ $games = Game::getWishlist();
             <th>Categories</th>
             <th>Review</th>
             <th>Wishlisted</th>
+			<th>Options</th>
         </tr>
         </thead>
         <tbody>
-        <?php foreach($games as $key => $game):?>
+        <?php foreach($games as $game):?>
             <tr>
                 <?php if(empty($game->getImages())):?>
-                    <th id="image<?=$key?>" data-name="<?=$game->getGameName()?>"><i class="fas fa-spinner fa-spin"></i></th>
+                    <th class="text-center" id="image<?=$game->getGameID()?>" data-name="<?=$game->getGameName()?>"><i class="fas fa-spinner fa-spin"></i></th>
                 <?php else:?>
-                    <th><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" width="52" height="72"></th>
+                    <th class="text-center"><img src="<?=Image::WEB_PATH?><?=$game->getImages()[0]->getImageName()?>" alt="<?=$game->getGameName()?>" height="72" class="w-auto"></th>
                 <?php endif;?>
                 <th><?=$game->getGameName()?></th>
                 <th>
@@ -67,6 +74,11 @@ $games = Game::getWishlist();
 						<i class="fa-solid fa-heart"></i>
                     </button>
                 </th>
+				<th>
+					<button type="button" class="btn btn-outline-info" onclick="location.href='?action=game&id=<?=$game->getGameID()?>'">
+						<i class="fa-solid fa-circle-info"></i>
+					</button>
+				</th>
             </tr>
         <?php endforeach;?>
         </tbody>
