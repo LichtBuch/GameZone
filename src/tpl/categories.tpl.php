@@ -5,7 +5,7 @@ use GameZone\Category;
 ?>
 	<script>
 		$(document).ready(function () {
-			$(".dataTable").DataTable();
+			startTable();
 		});
 	</script>
 	<script src="/src/js/categories.js"></script>

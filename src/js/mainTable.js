@@ -84,24 +84,3 @@ function getParams (){
 
     return result;
 }
-
-function startTable(){
-
-    let pageLength;
-    const cookies = document.cookie.split("=");
-    if(cookies.length > 1){
-        pageLength = parseInt(cookies[1]);
-    }else {
-        pageLength = 10;
-    }
-
-    $('.datatable').DataTable({
-        "order": [[1, "asc"]],
-        "pageLength": pageLength
-    });
-
-    $(".custom-select").change(function (){
-        document.cookie = "option=" + $(this).val();
-    });
-
-}
