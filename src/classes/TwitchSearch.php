@@ -11,9 +11,7 @@ class TwitchSearch {
 	private function __construct() {
 		if ($this->isTwitchAvailable()) {
 			$this->curl=curl_init();
-			foreach (Config::CURL_OPTIONS as $option=>$value) {
-				curl_setopt($this->curl, $option, $value);
-			}
+            curl_setopt_array($this->curl, Config::CURL_OPTIONS);
 		}
 	}
 
